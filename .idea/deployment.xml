@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData">
+    <serverData>
+      <paths name="Remote Host (88680c90-469a-4041-a77e-1a6cf3c8ff72)">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/tmp/MapReduce" local="$PROJECT_DIR$" />
+          </mappings>
+        </serverdata>
+      </paths>
+    </serverData>
+  </component>
+</project>

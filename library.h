@@ -1,0 +1,6 @@
+#ifndef MAPREDUCE_LIBRARY_H
+#define MAPREDUCE_LIBRARY_H
+
+void hello();
+
+#endif //MAPREDUCE_LIBRARY_H
