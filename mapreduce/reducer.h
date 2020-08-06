@@ -10,9 +10,22 @@
 
 namespace mr {
 class Reducer {
-  explicit Reducer(const mr::Task& task) {}
+ public:
+  explicit Reducer(uint32_t reducer_id, uint32_t num_workers)
+      : reducer_id_(reducer_id), num_workers_(num_workers) {}
+
+  // User-defined functions.
+
+  // Read input for reduce stage. The default implementation should be good
+  // enough.
+  virtual void read_mapper_output(const std::string& working_dir);
   // TODO: what's the type of value???
-  virtual void reduce(const std::string& key, void* value) = 0;
+  virtual void reduce(const std::string& key, void* value);
+
+ private:
+  uint32_t reducer_id_;
+  uint32_t num_workers_;
+  std::vector<std::string> mapper_output_;
 };
 }  // namespace mr
 

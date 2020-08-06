@@ -9,16 +9,22 @@
 #include <unordered_map>
 
 #include "task.h"
+#include "worker_identity.h"
 
 namespace mr {
-enum class Identity { mapper, reducer };
+
+typedef void (*JoinReduceOutputFunc)();
+
 class Master {
   // TODO:
   // - rpc call that receives the task definition, and create corresponding
   //   mappers and reducers.
  public:
  private:
+  // IP -> identity.
   std::unordered_map<std::string, mr::Identity> mappers_;
+  // Join the output from reducers. Optional.
+  JoinReduceOutputFunc join_reduce_output_fn_;
 };
 }  // namespace mr
 
