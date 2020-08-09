@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package mr.proto;
+
+service MasterStub{
+  rpc AssignTask (Task) returns (Response) {}
+}
+
+message Task {
+  uint32 num_workers = 1;
+  repeated string workers = 2; // IP address.
+  string work_directory = 3;
+  string input_name = 4;  // <work_dir>/<input_name>
+}
+
+message Response {
+  string message = 1;
+}

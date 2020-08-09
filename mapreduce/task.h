@@ -20,7 +20,7 @@ struct Task {
 
   mr::Mapper mapper;
   mr::Reducer reducer;
-  MergeReduceResultFn merge_func;
+  MergeReduceResultFn merge_func = nullptr;
 };
 
 }  // namespace mr

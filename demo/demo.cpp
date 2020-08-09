@@ -4,7 +4,6 @@
 
 #include "mapper.h"
 #include "reducer.h"
+#include "task.h"
 
-int main() {
-  return 0;
-}
+int main() { return 0; }

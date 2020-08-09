@@ -5,14 +5,15 @@
 #define MAPREDUCE__REDUCER_H_
 
 #include <string>
-
-#include "task.h"
+#include <vector>
 
 namespace mr {
 class Reducer {
  public:
+  Reducer() = default;
   explicit Reducer(uint32_t reducer_id, uint32_t num_workers)
       : reducer_id_(reducer_id), num_workers_(num_workers) {}
+  virtual ~Reducer() = default;
 
   // User-defined functions.
 
@@ -20,11 +21,11 @@ class Reducer {
   // enough.
   virtual void read_mapper_output(const std::string& working_dir);
   // TODO: what's the type of value???
-  virtual void reduce(const std::string& key, void* value);
+  virtual void reduce(const std::string& key, void* value) {}
 
  private:
-  uint32_t reducer_id_;
-  uint32_t num_workers_;
+  uint32_t reducer_id_{};
+  uint32_t num_workers_{};
   std::vector<std::string> mapper_output_;
 };
 }  // namespace mr

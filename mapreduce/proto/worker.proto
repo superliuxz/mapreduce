@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package mr.proto;
+
+service WorkerStub{
+  rpc ReportFinish (Message) returns (Response) {}
+}
+
+message Message {
+  uint64 elapsed_time = 1;
+  string message = 2;
+}
+
+message Response {
+  string message = 1;
+}
