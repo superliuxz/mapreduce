@@ -1,16 +1,39 @@
 syntax = "proto3";
 
+import "google/protobuf/empty.proto";
+
 package mr.proto;
 
-service WorkerStub{
-  rpc ReportFinish (Message) returns (Response) {}
+service Worker {
+  // Worker as the server, receives RPC request from the Master, allowing Master
+  // to set the worker_id, task, and execute Map and Reduce.
+  rpc SetWorkerId (SetWorkerIdRequest) returns (google.protobuf.Empty) {}
+  rpc SetTask (SetTaskRequest) returns (google.protobuf.Empty) {}
+  rpc Map(MapRequest) returns (google.protobuf.Empty) {}
+  rpc Reduce(ReduceRequest) returns (google.protobuf.Empty) {}
 }
 
-message Message {
-  uint64 elapsed_time = 1;
-  string message = 2;
+message SetWorkerIdRequest {
+  uint32 worker_id = 1;
 }
 
-message Response {
-  string message = 1;
+message SetTaskRequest {
+  string task = 1; // The serialized mr::Task class.
+}
+
+message MapRequest {
+  string key = 1;
+  string value = 2;
+}
+
+message ReduceRequest {
+  string key = 1;
+  string value = 2;
+}
+
+message Task {
+  uint32 num_workers = 1;
+  repeated string workers = 2; // IP address.
+  string work_directory = 3;
+  string input_name = 4;  // <work_dir>/<input_name>
 }

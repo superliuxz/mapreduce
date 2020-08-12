@@ -17,8 +17,6 @@ class Mapper {
 
   // User-defined functions.
 
-  // Split the input based on worker's id.
-  virtual void split_input(const std::string& input_loc) {}
   // Map function that does the work.
   virtual void map(const std::string& key, const std::string& value) {}
 
@@ -33,6 +31,7 @@ class Mapper {
   // reducer the "value" will be sent to. Each value corresponds to each
   // record/line from the splitted input.
   std::multiset<std::pair<std::string, std::string>> mapper_output_;
+  std::string error_;
 };
 }  // namespace mr
 

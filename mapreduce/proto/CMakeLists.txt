@@ -9,9 +9,9 @@ function(GEN_PROTO_GRPC SRCS HDRS)
   set(${SRCS})
   set(${HDRS})
   foreach(FIL ${ARGN})
-    get_filename_component(ABS_FIL ${FIL} ABSOLUTE)
+    get_filename_component(ABS_FIL ${FIL} ABSOLUTE) # abs proto path
     get_filename_component(FIL_WE ${FIL} NAME_WE) # filename without ext
-    get_filename_component(proto_path "${ABS_FIL}" PATH)
+    get_filename_component(proto_path "${ABS_FIL}" PATH) # directory with all protos
 
     set(proto_srcs "${CMAKE_CURRENT_BINARY_DIR}/${FIL_WE}.pb.cc")
     set(proto_hdrs "${CMAKE_CURRENT_BINARY_DIR}/${FIL_WE}.pb.h")
@@ -38,8 +38,12 @@ function(GEN_PROTO_GRPC SRCS HDRS)
   set(${HDRS} ${${HDRS}} PARENT_SCOPE)
 endfunction()
 
+file(GLOB proto_files "${CMAKE_CURRENT_SOURCE_DIR}/*.proto")
+GEN_PROTO_GRPC(PROTO_SRCS PROTO_HDRS ${proto_files})
+# pass PROTO_SRCS to parent scope so we can add PROTO_SRCS to the lib.
+set(PROTO_SRCS ${PROTO_SRCS} PARENT_SCOPE)
 
-GEN_PROTO_GRPC(PROTO_SRCS PROTO_HDRS worker.proto master.proto)
-
-message("* Generated proto srcs and hdrs: ${PROTO_SRCS} ${PROTO_HDRS} *")
+message(STATUS "To be generated proto srcs and hdrs:
+${PROTO_SRCS}
+${PROTO_HDRS}")
 add_custom_target(mr-proto ALL DEPENDS ${PROTO_SRCS} ${PROTO_HDRS})

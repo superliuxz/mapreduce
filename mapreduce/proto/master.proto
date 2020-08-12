@@ -1,18 +1,17 @@
 syntax = "proto3";
 
+import "google/protobuf/empty.proto";
+
 package mr.proto;
 
-service MasterStub{
-  rpc AssignTask (Task) returns (Response) {}
+service Master {
+  // Master as the server, accepts the ReportFinish call from the Workers.
+  rpc ReportStageFinish (ReportStageFinishMessage) returns (google.protobuf.Empty) {}
 }
 
-message Task {
-  uint32 num_workers = 1;
-  repeated string workers = 2; // IP address.
-  string work_directory = 3;
-  string input_name = 4;  // <work_dir>/<input_name>
-}
-
-message Response {
-  string message = 1;
+message ReportStageFinishMessage {
+  uint32 worker_id = 1;
+  bool stage_success = 2;
+  uint64 elapsed_time = 3;
+  string message = 4;
 }
