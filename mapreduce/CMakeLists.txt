@@ -8,7 +8,8 @@ target_link_libraries(MapReduce
     spdlog::spdlog)
 
 # add included directory for the generated proto/grpc *.pb.h
-target_include_directories(MapReduce PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/proto)
+target_include_directories(MapReduce PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_BINARY_DIR}/proto)
 
 # add explicit dependencies to generate proto headers and srcs.
 add_dependencies(MapReduce mr-proto)

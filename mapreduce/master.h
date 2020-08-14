@@ -25,12 +25,6 @@ typedef void (*JoinReduceOutputFunc)();
 
 class Master final : public proto::Master::Service {
  public:
-  // Master as the server, receives RPC call from the Worker, when Worker
-  // finishes current map/reduce stage.
-  grpc::Status ReportStageFinish(
-      ::grpc::ServerContext* context,
-      const ::mr::proto::ReportStageFinishMessage* request,
-      ::google::protobuf::Empty* response) override;
   // Master makes RPC call to workers.
   void SetWorkerId();
   void SetTaks();
