@@ -31,7 +31,6 @@ class Mapper {
   // reducer the "value" will be sent to. Each value corresponds to each
   // record/line from the splitted input.
   std::multiset<std::pair<std::string, std::string>> mapper_output_;
-  std::string error_;
 };
 }  // namespace mr
 

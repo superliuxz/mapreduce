@@ -11,6 +11,10 @@
 #include "worker.pb.h"
 
 namespace mr {
+// Modified from
+// https://github.com/grpc/grpc/blob/master/examples/cpp/helloworld/greeter_async_server.cc#L73
+//
+// Class encompasing the state and logic needed to serve a request.
 class CallDataMapper {
  public:
   // Take in the "service" instance (in this case representing an asynchronous

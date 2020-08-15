@@ -8,6 +8,7 @@
 #include <grpcpp/ext/proto_server_reflection_plugin.h>
 #include <grpcpp/grpcpp.h>
 #include <grpcpp/health_check_service_interface.h>
+#include <worker.grpc.pb.h>
 
 #include <string>
 #include <unordered_map>
@@ -22,22 +23,21 @@
 namespace mr {
 
 typedef void (*JoinReduceOutputFunc)();
+typedef void (*MergeReduceResultFn)();
 
-class Master final : public proto::Master::Service {
+class Master {
  public:
-  // Master makes RPC call to workers.
-  void SetWorkerId();
-  void SetTaks();
-  void Map();
-  void Reduce();
+  void run();
 
  private:
-  // {<IP, Identity> ...}
-  std::vector<std::pair<std::string, mr::Identity>> workers_;
+  mr::Task task_;
   // Join the output from reducers. Optional.
   JoinReduceOutputFunc join_reduce_output_fn_ = nullptr;
   // logger
   std::shared_ptr<spdlog::logger> console_ = spdlog::stdout_color_mt("console");
+  // Master makes async RPC call to workers.
+  void map_();
+  void reduce_();
 };
 }  // namespace mr
 

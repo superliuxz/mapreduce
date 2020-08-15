@@ -25,32 +25,21 @@
 #include "worker_identity.h"
 
 namespace mr {
-class Worker final : public mr::proto::Worker::Service {
+class Worker {
  public:
   Worker() = default;
-  ~Worker() override {
+  ~Worker() {
     server_->Shutdown();
     // Always shutdown the completion queue after the server.
     cq_->Shutdown();
   };
 
-  // Worker as the server receives RPC calls from Master.
-  grpc::Status SetWorkerId(grpc::ServerContext* context,
-                           const mr::proto::SetWorkerIdRequest* request,
-                           google::protobuf::Empty* response) override;
-  grpc::Status SetTask(grpc::ServerContext* context,
-                       const mr::proto::SetTaskRequest* request,
-                       google::protobuf::Empty* response) override;
  private:
-  // Id of the worker, set by Master.
-  uint32_t worker_id_ = -1;
   // The task definition.
   mr::Task task_;
   // Two classes that implement the map and reduce logic.
   std::unique_ptr<mr::Mapper> mapper_;
   std::unique_ptr<mr::Reducer> reducer_;
-  // Used to merge the result from reducer, optional, set from |task_|.
-  mr::MergeReduceResultFn merge_func_ = nullptr;
 
   // logger
   std::shared_ptr<spdlog::logger> console_ = spdlog::stdout_color_mt("console");
@@ -58,13 +47,6 @@ class Worker final : public mr::proto::Worker::Service {
   std::unique_ptr<grpc::ServerCompletionQueue> cq_;
   mr::proto::Worker::AsyncService service_;
   std::unique_ptr<grpc::Server> server_;
-
-  // Modified from
-  // https://github.com/grpc/grpc/blob/master/examples/cpp/helloworld/greeter_async_server.cc#L73
-  //
-  // Class encompasing the state and logic needed to serve a request.
-
-
 };
 }  // namespace mr
 

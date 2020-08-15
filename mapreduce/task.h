@@ -10,7 +10,7 @@
 
 namespace mr {
 
-typedef void (*MergeReduceResultFn)();
+
 
 struct Task {
   uint32_t num_workers;
@@ -19,8 +19,11 @@ struct Task {
   std::string input_name;
 
   mr::Mapper mapper;
+  std::vector<std::string> mapper_keys;
+  std::vector<std::string> mapper_values;
   mr::Reducer reducer;
-  MergeReduceResultFn merge_func = nullptr;
+  std::vector<std::string> reducer_keys;
+  std::vector<std::string> reducer_values;
 };
 
 }  // namespace mr
