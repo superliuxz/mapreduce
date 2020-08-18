@@ -3,12 +3,11 @@
 # https://stackoverflow.com/questions/32823563/using-cmake-to-create-protobuf-grpc-cc-files
 # https://github.com/grpc/grpc/blob/master/examples/cpp/helloworld/CMakeLists.txt
 
-
 function(GEN_PROTO_GRPC SRCS HDRS)
 
   set(${SRCS})
   set(${HDRS})
-  foreach(FIL ${ARGN})
+  foreach (FIL ${ARGN})
     get_filename_component(ABS_FIL ${FIL} ABSOLUTE) # abs proto path
     get_filename_component(FIL_WE ${FIL} NAME_WE) # filename without ext
     get_filename_component(proto_path "${ABS_FIL}" PATH) # directory with all protos
@@ -27,12 +26,12 @@ function(GEN_PROTO_GRPC SRCS HDRS)
         OUTPUT "${proto_srcs}" "${proto_hdrs}" "${grpc_srcs}" "${grpc_hdrs}"
         COMMAND ${_PROTOBUF_PROTOC}
         ARGS --grpc_out "${CMAKE_CURRENT_BINARY_DIR}"
-             --cpp_out "${CMAKE_CURRENT_BINARY_DIR}"
-             --proto_path "${proto_path}"
-             --plugin=protoc-gen-grpc="${_GRPC_CPP_PLUGIN_EXECUTABLE}"
+        --cpp_out "${CMAKE_CURRENT_BINARY_DIR}"
+        --proto_path "${proto_path}"
+        --plugin=protoc-gen-grpc="${_GRPC_CPP_PLUGIN_EXECUTABLE}"
         "${ABS_FIL}"
         DEPENDS "${ABS_FIL}")
-  endforeach()
+  endforeach ()
 
   set(${SRCS} ${${SRCS}} PARENT_SCOPE)
   set(${HDRS} ${${HDRS}} PARENT_SCOPE)

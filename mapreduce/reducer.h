@@ -16,12 +16,11 @@ class Reducer {
   virtual ~Reducer() = default;
 
   // User-defined functions.
-
+  virtual void reduce(const std::string& key, const std::string& value,
+                      std::string& error) {}
   // Read input for reduce stage. The default implementation should be good
   // enough.
   virtual void read_mapper_output(const std::string& working_dir);
-  // TODO: what's the type of value???
-  virtual void reduce(const std::string& key, void* value, std::string& error) {}
 
  private:
   uint32_t reducer_id_{};

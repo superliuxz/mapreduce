@@ -33,6 +33,8 @@ class Worker {
     // Always shutdown the completion queue after the server.
     cq_->Shutdown();
   };
+  void HandleMapRPC();
+  void HandleReduceRPC();
 
  private:
   // The task definition.

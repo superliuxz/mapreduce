@@ -21,28 +21,9 @@ class CallDataMapper {
   // server) and the completion queue "cq" used for asynchronous communication
   // with the gRPC runtime.
   CallDataMapper(mr::proto::Worker::AsyncService* service,
-                 grpc::ServerCompletionQueue* cq, mr::Mapper& mapper,
-                 const std::string& work_dir)
-      : service_(service), cq_(cq), responder_(&ctx_) {
-    // We *request* that the system start processing SayHello requests. In
-    // this request, "this" acts are the tag uniquely identifying the request
-    // (so that different CallData instances can serve different requests
-    // concurrently), in this case the memory address of this CallData
-    // instance.
-    service_->RequestMap(&ctx_, &request_, &responder_, cq_, cq_, this);
-
-    std::string error;
-    auto start = std::chrono::steady_clock::now();
-    mapper.map(request_.key(), request_.value(), error);
-    auto end = std::chrono::steady_clock::now();
-    reply_.set_message(error);
-    reply_.set_stage_success(error.empty());
-    reply_.set_elapsed_time((end - start).count());
-    mapper.write_mapper_output(work_dir);
-
-    responder_.Finish(reply_, grpc::Status::OK, this);
-    delete this;
-  }
+                 grpc::ServerCompletionQueue* cq)
+      : service_(service), cq_(cq), responder_(&ctx_) {}
+  void MapAndDeleteSelf(mr::Mapper* mapper, const std::string& work_dir);
 
  private:
   // The means of communication with the gRPC runtime for an asynchronous

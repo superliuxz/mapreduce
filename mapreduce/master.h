@@ -23,7 +23,6 @@
 namespace mr {
 
 typedef void (*JoinReduceOutputFunc)();
-typedef void (*MergeReduceResultFn)();
 
 class Master {
  public:

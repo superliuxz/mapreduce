@@ -18,8 +18,8 @@ class Mapper {
   // User-defined functions.
 
   // Map function that does the work.
-  virtual void map(const std::string& key, const std::string& value, std::string& error) {}
-
+  virtual void map(const std::string& key, const std::string& value,
+                   std::string& error) {}
   // Flush the output from map stage onto storage. The default implementation
   // is good enough.
   virtual void write_mapper_output(const std::string& working_dir);
