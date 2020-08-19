@@ -9,7 +9,13 @@
 
 namespace fs = std::experimental::filesystem;
 
-void mr::Reducer::read_mapper_output(const std::string& working_dir) {
+mr::ReducerBase::ReducerBase(ReducerBase&& rv_ref) noexcept {
+  reducer_id_ = rv_ref.reducer_id_;
+  num_workers_ = rv_ref.num_workers_;
+  mapper_output_ = std::move(rv_ref.mapper_output_);
+}
+
+void mr::ReducerBase::read_mapper_output(const std::string& working_dir) {
   // <cwd>/<reducer_id>/
   const std::string reducer_path(working_dir + "/" +
                                  std::to_string(reducer_id_) + "/");

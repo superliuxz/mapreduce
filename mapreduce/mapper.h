@@ -8,12 +8,14 @@
 #include <string>
 
 namespace mr {
-class Mapper {
+class MapperBase {
  public:
-  Mapper() = default;
-  Mapper(uint32_t mapper_id, uint32_t num_workers)
+  MapperBase() = default;
+  MapperBase(uint32_t mapper_id, uint32_t num_workers)
       : mapper_id_(mapper_id), num_workers_(num_workers) {}
-  virtual ~Mapper() = default;
+  MapperBase(const MapperBase&) = delete;
+  MapperBase(MapperBase&&) noexcept;
+  virtual ~MapperBase() = default;
 
   // User-defined functions.
 

@@ -11,7 +11,13 @@
 
 namespace fs = std::experimental::filesystem;
 
-void mr::Mapper::write_mapper_output(const std::string& working_dir) {
+mr::MapperBase::MapperBase(mr::MapperBase&& rv_ref) noexcept {
+  mapper_id_ = rv_ref.mapper_id_;
+  num_workers_ = rv_ref.num_workers_;
+  mapper_output_ = std::move(rv_ref.mapper_output_);
+}
+
+void mr::MapperBase::write_mapper_output(const std::string& working_dir) {
   // reducer_id -> {value ...}
   std::unordered_map<uint32_t, std::vector<std::string>> temp;
 

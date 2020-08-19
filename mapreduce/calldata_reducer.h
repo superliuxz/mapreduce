@@ -15,7 +15,7 @@ class CallDataReducer {
   CallDataReducer(mr::proto::Worker::AsyncService* service,
                   grpc::ServerCompletionQueue* cq)
       : service_(service), cq_(cq), responder_(&ctx_) {}
-  void ReduceAndDeleteSelf(mr::Reducer* reducer, const std::string& work_dir);
+  void ReduceAndDeleteSelf(mr::ReducerBase* reducer, const std::string& work_dir);
 
  private:
   mr::proto::Worker::AsyncService* service_;

@@ -18,6 +18,7 @@ void mr::Worker::HandleMapRPC() {
   // tells us whether there is any kind of event or cq_ is shutting down.
   GPR_ASSERT(cq_->Next(&tag, &ok));
   GPR_ASSERT(ok);
+  console_->info("Worker handling Map gRPC request...");
   static_cast<CallDataMapper*>(tag)->MapAndDeleteSelf(mapper_.get(),
                                                       task_.work_directory);
 }
@@ -28,6 +29,7 @@ void mr::Worker::HandleReduceRPC() {
   bool ok;
   GPR_ASSERT(cq_->Next(&tag, &ok));
   GPR_ASSERT(ok);
+  console_->info("Worker handling Reduce gRPC request...");
   static_cast<CallDataReducer*>(tag)->ReduceAndDeleteSelf(reducer_.get(),
                                                           task_.work_directory);
 }

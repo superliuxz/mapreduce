@@ -4,7 +4,7 @@
 
 #include "calldata_mapper.h"
 
-void mr::CallDataMapper::MapAndDeleteSelf(mr::Mapper* mapper, const std::string& work_dir) {
+void mr::CallDataMapper::MapAndDeleteSelf(mr::MapperBase* mapper, const std::string& work_dir) {
   // We *request* that the system start processing Map requests. In this
   // request, "this" acts are the tag uniquely identifying the request (so
   // that different CallData instances can serve different requests

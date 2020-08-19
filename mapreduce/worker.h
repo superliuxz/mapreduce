@@ -14,6 +14,7 @@
 #include <cstdint>
 #include <memory>
 #include <string>
+#include <utility>
 
 #include "mapper.h"
 #include "reducer.h"
@@ -27,7 +28,12 @@
 namespace mr {
 class Worker {
  public:
-  Worker() = default;
+  explicit Worker(mr::Task task, mr::MapperBase&& mapper,
+                  mr::ReducerBase&& reducer)
+      : task_(std::move(task)) {
+    mapper_ = std::make_unique<mr::MapperBase>(std::move(mapper));
+    reducer_ = std::make_unique<mr::ReducerBase>(std::move(reducer));
+  }
   ~Worker() {
     server_->Shutdown();
     // Always shutdown the completion queue after the server.
@@ -40,8 +46,8 @@ class Worker {
   // The task definition.
   mr::Task task_;
   // Two classes that implement the map and reduce logic.
-  std::unique_ptr<mr::Mapper> mapper_;
-  std::unique_ptr<mr::Reducer> reducer_;
+  std::unique_ptr<mr::MapperBase> mapper_;
+  std::unique_ptr<mr::ReducerBase> reducer_;
 
   // logger
   std::shared_ptr<spdlog::logger> console_ = spdlog::stdout_color_mt("console");

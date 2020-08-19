@@ -1,7 +1,7 @@
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/proto)
 
 add_library(MapReduce SHARED mapper.cpp master.cpp reducer.cpp worker.cpp
-    calldata_mapper.cpp calldata_reducer.cpp ${PROTO_SRCS})
+    calldata_mapper.cpp calldata_reducer.cpp map_reduce.cpp ${PROTO_SRCS})
 target_link_libraries(MapReduce
     ${_REFLECTION}
     ${_GRPC_GRPCPP}

@@ -4,7 +4,7 @@
 
 #include "calldata_reducer.h"
 
-void mr::CallDataReducer::ReduceAndDeleteSelf(mr::Reducer *reducer,
+void mr::CallDataReducer::ReduceAndDeleteSelf(mr::ReducerBase *reducer,
                                               const std::string &work_dir) {
   service_->RequestReduce(&ctx_, &request_, &responder_, cq_, cq_, this);
 

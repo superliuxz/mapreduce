@@ -23,7 +23,7 @@ class CallDataMapper {
   CallDataMapper(mr::proto::Worker::AsyncService* service,
                  grpc::ServerCompletionQueue* cq)
       : service_(service), cq_(cq), responder_(&ctx_) {}
-  void MapAndDeleteSelf(mr::Mapper* mapper, const std::string& work_dir);
+  void MapAndDeleteSelf(mr::MapperBase* mapper, const std::string& work_dir);
 
  private:
   // The means of communication with the gRPC runtime for an asynchronous

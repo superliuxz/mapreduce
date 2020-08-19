@@ -26,6 +26,7 @@ typedef void (*JoinReduceOutputFunc)();
 
 class Master {
  public:
+  explicit Master(mr::Task task) : task_(std::move(task)) {}
   void run();
 
  private:

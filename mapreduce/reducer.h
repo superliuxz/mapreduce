@@ -8,12 +8,14 @@
 #include <vector>
 
 namespace mr {
-class Reducer {
+class ReducerBase {
  public:
-  Reducer() = default;
-  explicit Reducer(uint32_t reducer_id, uint32_t num_workers)
+  ReducerBase() = default;
+  explicit ReducerBase(uint32_t reducer_id, uint32_t num_workers)
       : reducer_id_(reducer_id), num_workers_(num_workers) {}
-  virtual ~Reducer() = default;
+  ReducerBase(const ReducerBase&) = delete;
+  ReducerBase(ReducerBase&&) noexcept;
+  virtual ~ReducerBase() = default;
 
   // User-defined functions.
   virtual void reduce(const std::string& key, const std::string& value,
